@@ -69,6 +69,7 @@ function inventoryContainer()
     for (const key in zones) {
         const zone = zones[key];
         const zoneContainer = document.createElement("p");
+        zoneContainer.id = `inventory_zone_${zone.name}`
         zoneContainer.textContent = `${zone.name}: ${zone.owned}`
         container.appendChild(zoneContainer);
     }
@@ -82,10 +83,13 @@ function buyZonesContainer()
     for (const key in zones) {
         const zone = zones[key];
         const buyZoneButton = document.createElement("button");
-        const zoneCost = getZoneCost(zone);
+        let zoneCost = getZoneCost(zone);
         buyZoneButton.innerText = `Buy ${zone.name} (${zoneCost})`;
         buyZoneButton.addEventListener('click', function(){
             buyZone(zone, 1);
+            document.getElementById(`inventory_zone_${zone.name}`).textContent = `${zone.name}: ${zone.owned}`;
+            zoneCost = getZoneCost(zone);
+            buyZoneButton.innerText = `Buy ${zone.name} (${zoneCost})`;
         });
         container.appendChild(buyZoneButton);
     }
